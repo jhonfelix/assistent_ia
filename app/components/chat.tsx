@@ -7,7 +7,7 @@ import Markdown from "react-markdown";
 import { AssistantStreamEvent } from "openai/resources/beta/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 import Link from "next/link";
-import { ArrowUp, StopCircleIcon } from "lucide-react";
+import { ArrowUp, Loader2Icon, StopCircleIcon, ThumbsDown, ThumbsUp } from "lucide-react";
 
 type MessageProps = {
   role: "user" | "assistant" | "code";
@@ -37,8 +37,8 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
       user: (text: string) => <div className={styles.userMessage}>{text}</div>,
       assistant: (text: string) => (
         <div className={styles.assistantMessage}>
-          {loading ? 'carregando...' : '' }
           <Markdown>{text}</Markdown>
+          <div className={styles.checkmensages}><ThumbsUp size={'15px'} /> <ThumbsDown size={'15px'} /> <Loader2Icon size={'15px'}/></div>
         </div>
       ),
       code: (text: string) => (
@@ -141,8 +141,9 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
       <div className={styles.messages}>
         {textInfo && <div className={styles.textInfo}>Como posso ajudar?</div>}
         {messages.map((msg, index) => (
-          <Message key={index} role={msg.role} text={msg.text} />
+          <Message key={index} role={msg.role} text={msg.text} />          
         ))}
+                  {loading ? 'processando...' : '' }
         <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleSubmit} className={styles.inputForm}>

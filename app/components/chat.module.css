@@ -29,6 +29,12 @@
   height: 30px;
   width: 30px;
 }
+.checkmensages {
+  display: flex;
+  padding: 5px;
+  color: #909090;
+  gap: 5px;
+}
 
 .input:focus {
   outline: none !important;
@@ -107,7 +113,7 @@
 }
 
 .assistantMessage {
-  background-color: #efefef;
+  background-color: #dfdfdf;
 }
 
 .codeMessage {
