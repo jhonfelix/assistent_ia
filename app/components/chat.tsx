@@ -16,27 +16,7 @@ type MessageProps = {
 
 //git push origin main
 
-const Message = ({ role, text }: MessageProps) => {
-  const components = {
-    user: (text: string) => <div className={styles.userMessage}>{text}</div>,
-    assistant: (text: string) => (
-      <div className={styles.assistantMessage}>
-        <Markdown>{text}</Markdown>
-      </div>
-    ),
-    code: (text: string) => (
-      <div className={styles.codeMessage}>
-        {text.split("\n").map((line, index) => (
-          <div key={index}>
-            <span>{`${index + 1}. `}</span>
-            {line}
-          </div>
-        ))}
-      </div>
-    ),
-  };
-  return components[role](text);
-};
+
 
 type ChatProps = {
   functionCallHandler?: (
@@ -51,6 +31,29 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
   const [textInfo, setTextInfo] = useState(true);
+
+  const Message = ({ role, text }: MessageProps) => {
+    const components = {
+      user: (text: string) => <div className={styles.userMessage}>{text}</div>,
+      assistant: (text: string) => (
+        <div className={styles.assistantMessage}>
+          {loading ? 'carregando...' : '' }
+          <Markdown>{text}</Markdown>
+        </div>
+      ),
+      code: (text: string) => (
+        <div className={styles.codeMessage}>
+          {text.split("\n").map((line, index) => (
+            <div key={index}>
+              <span>{`${index + 1}. `}</span>
+              {line}
+            </div>
+          ))}
+        </div>
+      ),
+    };
+    return components[role](text);
+  };
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
