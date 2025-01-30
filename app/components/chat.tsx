@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
 import Markdown from "react-markdown";
-import { AssistantStreamEvent } from "openai/resources/beta/assistants/assistants";
+import { AssistantStreamEvent } from "openai/resources/beta/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 import Link from "next/link";
 import { ArrowUp, StopCircleIcon } from "lucide-react";
@@ -13,6 +13,8 @@ type MessageProps = {
   role: "user" | "assistant" | "code";
   text: string;
 };
+
+//git push origin main
 
 const Message = ({ role, text }: MessageProps) => {
   const components = {
