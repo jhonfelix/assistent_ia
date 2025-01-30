@@ -139,7 +139,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.messages}>
-        {textInfo && <div className={styles.textInfo}>Como posso ajudar?</div>}
+        {textInfo && <div className={styles.textInfo}>Olá, sou o <b>Ícaro</b> e estou aqui para fornecer dados e estatísticas sobre ocorrências aeronáuticas. <b>O que deseja saber?</b></div>}
         {messages.map((msg, index) => (
           <Message key={index} role={msg.role} text={msg.text} />          
         ))}
@@ -161,7 +161,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
       </form>
       <div className={styles.footer}>
         O Assistente de IA pode cometer erros. Considere verificar informações importantes na página oficial do {" "}
-        <Link href="http://www2.fab.mil.br/cenipa/" target="_blank">CENIPA</Link>.
+        <Link href="http://www2.fab.mil.br/cenipa/" target="_blank">CENIPA</Link> {" "}e/ou{" "} <Link href="https://painelsipaer.cenipa.fab.mil.br/extensions/Sipaer/home.html" target="_blank">PainelSipaer</Link>.
       </div>
     </div>
   );

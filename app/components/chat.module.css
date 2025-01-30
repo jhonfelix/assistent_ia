@@ -59,12 +59,13 @@
 }
 
 .button {
-  padding: 8px 24px;
   background-color: #000;
   color: white;
   border: none;
   font-size: 1em;
-  border-radius: 60px; /* Removed duplicate border-radius property */
+  height: 50px;
+    width: 50px;
+  border-radius: 50px; /* Removed duplicate border-radius property */
 }
 
 .button:disabled {
@@ -82,11 +83,11 @@
 }
 .textInfo {
   position: fixed;
-  top: 50%;
+  top: 30%;
   left: 50%;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-size: 25px;
+  font-size: 20px;
+  max-width: 500px;
 }
 
 .userMessage,
@@ -132,7 +133,7 @@
   margin-right: 8px;
 }
 .footer {
-  display: flex;
+  display: inline;
   justify-content: center;
   color: #000;
   margin: 8px 0;
