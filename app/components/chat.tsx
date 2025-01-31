@@ -116,8 +116,9 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   };
 
   const handleReadableStream = (stream: AssistantStream) => {
-    stream.on("textCreated", () => setMessages((prev) => [...prev, { role: "assistant", text: "" }]));
     
+    stream.on("textCreated", () => setMessages((prev) => [...prev, { role: "assistant", text: "" }]));
+   
     stream.on("textDelta", (delta) => {
       if (delta.value) {
         setMessages((prev) => {
@@ -143,7 +144,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
         {messages.map((msg, index) => (
           <Message key={index} role={msg.role} text={msg.text} />          
         ))}
-                  {loading ? 'processando...' : '' }
+          {loading ? <div className={styles.loading}>Processando...</div> : '' }
         <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleSubmit} className={styles.inputForm}>

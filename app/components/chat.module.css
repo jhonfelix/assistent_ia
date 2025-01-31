@@ -72,6 +72,13 @@
   background-color: lightgrey;
 }
 
+.loading {
+  display: flex;
+  color: #909090;
+  font-size: 12px;
+  justify-content: center;
+}
+
 .messages {
   flex-grow: 1;
   overflow-y: auto;
