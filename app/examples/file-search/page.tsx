@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "../shared/page.module.css";
 
-import Chat from "../../components/chat";
+import Chat from "../../components/chat_padas";
 import FileViewer from "../../components/file-viewer";
 
 const FileSearchPage = () => {

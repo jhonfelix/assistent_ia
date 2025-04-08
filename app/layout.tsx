@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react"
 
 export const metadata = {
   title: "Assistente de IA Ícaro",
-  description: "Ferramenta de IA de pesquisa de dados de ocorrências aeronáuticas ocorridas no Brasil nos últimos 10 anos.",
+  description: "Ferramenta de pesquisa com a utilização de IA na consulta de dados de ocorrências aeronáuticas da aviação civil brasileira nos últimos 10 anos.",
   icons: {
     icon: "/icaro.svg",
   },

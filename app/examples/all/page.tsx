@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import Chat from "../../components/chat";
+import Chat from "../../components/chat_padas";
 import WeatherWidget from "../../components/weather-widget";
 import { getWeather } from "../../utils/weather";
 import FileViewer from "../../components/file-viewer";
