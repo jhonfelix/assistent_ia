@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
 import Markdown from "react-markdown";
+import { supabase } from "../supabaseClient";
 import { AssistantStreamEvent } from "openai/resources/beta/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 import Link from "next/link";
@@ -86,6 +87,13 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
     handleReadableStream(stream);
   };
 
+  const saveMessageToSupabase = async (role: "user" | "assistant", text: string) => {
+    const { error } = await supabase.from("messages").insert([{ role, text }]);
+    if (error) {
+      console.error("Erro ao salvar mensagem no Supabase:", error.message);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userInput.trim()) return;
@@ -95,6 +103,9 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
     setTextInfo(false);
     setInputDisabled(true);
     setLoading(true);
+
+    // Salva a mensagem do usuário no Supabase
+    await saveMessageToSupabase("user", userInput);
     
     await sendMessage(userInput);
   };
