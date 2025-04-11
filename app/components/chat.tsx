@@ -7,16 +7,13 @@ import Markdown from "react-markdown";
 import { AssistantStreamEvent } from "openai/resources/beta/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 import Link from "next/link";
-import { ArrowUp, Loader2Icon, StopCircleIcon, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowUp, Loader2Icon, Moon, StopCircleIcon, Sun, ThumbsDown, ThumbsUp } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 type MessageProps = {
   role: "user" | "assistant" | "code";
   text: string;
 };
-
-//git push origin main
-
-
 
 type ChatProps = {
   functionCallHandler?: (
@@ -31,6 +28,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
   const [textInfo, setTextInfo] = useState(true);
+  const { theme, toggleTheme } = useTheme();
 
   const Message = ({ role, text }: MessageProps) => {
     const components = {
@@ -160,6 +158,9 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
 
   return (
     <div className={styles.chatContainer}>
+      <button onClick={toggleTheme} className={styles.themeToggle}>
+        Alternar para modo {theme === "light" ? <Moon /> : <Sun /> } 
+      </button>
       <div className={styles.messages}>
         {textInfo && <div className={styles.textInfo}>Olá, sou o <b>Ícaro</b> e estou aqui para fornecer dados e estatísticas sobre ocorrências aeronáuticas. <b>O que deseja saber?</b></div>}
         {messages.map((msg, index) => (
@@ -178,7 +179,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
           disabled={inputDisabled}
         />
         <button type="submit" className={styles.button} disabled={inputDisabled}>
-          {loading ? <StopCircleIcon color="#000" /> : <ArrowUp />}
+          {loading ? <StopCircleIcon  /> : <ArrowUp />}
         </button>
       </form>
       <div className={styles.footer}>

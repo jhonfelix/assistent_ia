@@ -13,18 +13,30 @@
 }
 
 html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+.light {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --border-color: #b8b8b8;
+  --background-chat-message: #ffffff;
+  --background-color-chat-message: #000000;
+}
+
+.dark {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --border-color: #b8b8b8;
+  --background-chat-message: #000000;
+  --background-color-chat-message: #faf9f9;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: var(--text-color);
 }
 
 .warnings {
@@ -61,13 +73,13 @@ ol {
 }
 
 a {
-  color: blue;
+  color: var(--text-color);
 }
 
 pre {
   margin: -4px -16px;
   padding: 20px;
   white-space: pre-wrap;
-  background-color: #e4e4e4;
-  color: black;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
