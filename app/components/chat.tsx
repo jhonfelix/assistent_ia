@@ -30,6 +30,15 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   const [threadId, setThreadId] = useState("");
   const [textInfo, setTextInfo] = useState(true);
   const { theme, toggleTheme } = useTheme();
+  let assistantMessageSaved = false;
+
+
+  const saveMessageToSupabase = async (role: "user" | "assistant", text: string, threads: string) => {
+    const { error } = await supabase.from("messages").insert([{ role, text, threads  }]);
+    if (error) {
+      console.error("Erro ao salvar mensagem no Supabase:", error.message);
+    }
+  };
 
   const Message = ({ role, text }: MessageProps) => {
     const components = {
@@ -51,6 +60,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
         </div>
       ),
     };
+
     return components[role](text);
   };
 
@@ -87,12 +97,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
     handleReadableStream(stream);
   };
 
-  const saveMessageToSupabase = async (role: "user" | "assistant", text: string, threads: string) => {
-    const { error } = await supabase.from("messages").insert([{ role, text, threads  }]);
-    if (error) {
-      console.error("Erro ao salvar mensagem no Supabase:", error.message);
-    }
-  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,6 +111,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
 
     // Salva a mensagem do usuário no Supabase
     await saveMessageToSupabase("user", userInput, threadId);
+    assistantMessageSaved = false;
     
     await sendMessage(userInput);
   };
@@ -127,13 +133,15 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
   const handleReadableStream = (stream: AssistantStream) => {
     
     stream.on("textCreated", () => setMessages((prev) => [...prev, { role: "assistant", text: "" }]));
-   
+   // Salva a mensagem do usuário no Supabase
+    
     stream.on("textDelta", (delta) => {
       if (delta.value) {
         setMessages((prev) => {
           const lastMessage = { ...prev[prev.length - 1], text: prev[prev.length - 1].text + delta.value };
           return [...prev.slice(0, -1), lastMessage];
         });
+        
       }
     });
 
@@ -162,6 +170,19 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
       if (event.event === "thread.run.completed") {
         setInputDisabled(false);
         setLoading(false);
+
+        // Salva a mensagem do assistente no Supabase
+        if (!assistantMessageSaved) {
+          assistantMessageSaved = true; 
+        setMessages((prevMessages) => {
+          const lastMessage = prevMessages[prevMessages.length - 1];
+          if (lastMessage?.role === "assistant") {
+          saveMessageToSupabase("assistant", lastMessage.text, threadId);
+          }
+          
+          return prevMessages;
+        });    
+        }  
       }
 
     });
