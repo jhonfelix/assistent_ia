@@ -87,8 +87,8 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
     handleReadableStream(stream);
   };
 
-  const saveMessageToSupabase = async (role: "user" | "assistant", text: string) => {
-    const { error } = await supabase.from("messages").insert([{ role, text }]);
+  const saveMessageToSupabase = async (role: "user" | "assistant", text: string, threads: string) => {
+    const { error } = await supabase.from("messages").insert([{ role, text, threads  }]);
     if (error) {
       console.error("Erro ao salvar mensagem no Supabase:", error.message);
     }
@@ -105,7 +105,7 @@ const Chat = ({ functionCallHandler = async () => "" }: ChatProps) => {
     setLoading(true);
 
     // Salva a mensagem do usuário no Supabase
-    await saveMessageToSupabase("user", userInput);
+    await saveMessageToSupabase("user", userInput, threadId);
     
     await sendMessage(userInput);
   };
